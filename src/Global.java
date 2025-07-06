@@ -1,4 +1,4 @@
 public class Global {
-    public static int gtotal;
-    public static String email;
+    public static int gtotal=0;
+    public static String email="";
 }

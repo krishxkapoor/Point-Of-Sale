@@ -3,38 +3,45 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
 
 public class GenrateBill extends javax.swing.JFrame {
+
+    ArrayList<BeanCategories> al;
+    mytablemodel tm;
 
     public GenrateBill() {
         initComponents();
         setSize(926, 644);
         getcat();
+        al = new ArrayList<>();
+        tm = new mytablemodel();
+        jt.setModel(tm);
+
         setLocationRelativeTo(null);
     }
-public void getcat()
-   {
-       int y = 10;
-       String ans=myClient.getcategory();
-       System.out.println(ans);
-       StringTokenizer st=new StringTokenizer(ans,"$");
-       while(st.hasMoreTokens())
-       {
-           StringTokenizer st2=new StringTokenizer(st.nextToken(),";;");
-           while(st2.hasMoreTokens())
-           {
-               String name=st2.nextToken();
-               String desc=st2.nextToken();
-               String photo=st2.nextToken();
-               JButton bt = new JButton();
-               bt.setBounds(5, y , 290 , 100);
-               y+=120;
+
+    public void getcat() {
+        int y = 10;
+        String ans = myClient.getcategory();
+        System.out.println(ans);
+        StringTokenizer st = new StringTokenizer(ans, "$");
+        while (st.hasMoreTokens()) {
+            StringTokenizer st2 = new StringTokenizer(st.nextToken(), ";;");
+            while (st2.hasMoreTokens()) {
+                String name = st2.nextToken();
+                String desc = st2.nextToken();
+                String photo = st2.nextToken();
+                JButton bt = new JButton();
+                bt.setBounds(5, y, 290, 100);
+                y += 120;
                 ImageIcon ic = new ImageIcon(photo);
-                Image ic1 = ic.getImage().getScaledInstance(bt.getWidth(), bt.getHeight()-30, Image.SCALE_SMOOTH);
+                Image ic1 = ic.getImage().getScaledInstance(bt.getWidth(), bt.getHeight() - 30, Image.SCALE_SMOOTH);
                 ImageIcon ic2 = new ImageIcon(ic1);
                 bt.setIcon(ic2);
                 jp1.add(bt);
@@ -42,44 +49,39 @@ public void getcat()
                 bt.setHorizontalTextPosition(SwingConstants.CENTER);
                 bt.setVerticalTextPosition(SwingConstants.BOTTOM);
                 bt.addActionListener(new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                             getproducts(name);
-                   }
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        getproducts(name);
+                    }
                 });
-                
-           }
-       }
-       jp1.repaint();
-       jp1.revalidate();
-       jp1.setPreferredSize(new Dimension (270,y));
-   }
 
+            }
+        }
+        jp1.repaint();
+        jp1.revalidate();
+        jp1.setPreferredSize(new Dimension(270, y));
+    }
 
-
-    public void getproducts(String name)
-    {
+    public void getproducts(String name) {
         jp2.removeAll();
         int y = 10;
-       String ans=myClient.getproductbill(name);
-       System.out.println(ans);
-       StringTokenizer st=new StringTokenizer(ans,"$");
-       while(st.hasMoreTokens())
-       {
-           StringTokenizer st2=new StringTokenizer(st.nextToken(),";;");
-           while(st2.hasMoreTokens())
-           {
-               String name2=st2.nextToken();
-                String catname=st2.nextToken();
-                String description=st2.nextToken();
+        String ans = myClient.getproductbill(name);
+        System.out.println(ans);
+        StringTokenizer st = new StringTokenizer(ans, "$");
+        while (st.hasMoreTokens()) {
+            StringTokenizer st2 = new StringTokenizer(st.nextToken(), ";;");
+            while (st2.hasMoreTokens()) {
+                String name2 = st2.nextToken();
+                String catname = st2.nextToken();
+                String description = st2.nextToken();
                 int price = Integer.parseInt(st2.nextToken());
                 int quantity = Integer.parseInt(st2.nextToken());
-                String photo=st2.nextToken();
-               JButton bt = new JButton();
-               bt.setBounds(5, y , 290 , 100);
-               y+=120;
+                String photo = st2.nextToken();
+                JButton bt = new JButton();
+                bt.setBounds(5, y, 290, 100);
+                y += 120;
                 ImageIcon ic = new ImageIcon(photo);
-                Image ic1 = ic.getImage().getScaledInstance(bt.getWidth(), bt.getHeight()-30, Image.SCALE_SMOOTH);
+                Image ic1 = ic.getImage().getScaledInstance(bt.getWidth(), bt.getHeight() - 30, Image.SCALE_SMOOTH);
                 ImageIcon ic2 = new ImageIcon(ic1);
                 bt.setIcon(ic2);
                 jp2.add(bt);
@@ -87,17 +89,17 @@ public void getcat()
                 bt.setHorizontalTextPosition(SwingConstants.CENTER);
                 bt.setVerticalTextPosition(SwingConstants.BOTTOM);
                 bt.addActionListener(new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                             
-                   }
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
                 });
-                
-           }
-       }
-       jp2.repaint();
-       jp2.revalidate();
-       jp2.setPreferredSize(new Dimension (270,y));
+
+            }
+        }
+        jp2.repaint();
+        jp2.revalidate();
+        jp2.setPreferredSize(new Dimension(270, y));
     }
 
     @SuppressWarnings("unchecked")
@@ -164,9 +166,14 @@ public void getcat()
         jScrollPane2.setViewportView(jt);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(540, 30, 360, 406);
+        jScrollPane2.setBounds(540, 50, 360, 406);
 
         jb1.setText("Genrate Bill");
+        jb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jb1);
         jb1.setBounds(760, 500, 140, 60);
 
@@ -177,7 +184,7 @@ public void getcat()
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(20, 10, 110, 27);
+        jButton1.setBounds(20, 10, 110, 23);
 
         DELETE.setText("DELETE");
         getContentPane().add(DELETE);
@@ -191,6 +198,41 @@ public void getcat()
         adminHome obj = new adminHome();
         obj.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb1ActionPerformed
+        dispose();
+        Bill obj = new Bill();
+        obj.setVisible(true);    }//GEN-LAST:event_jb1ActionPerformed
+    class mytablemodel extends AbstractTableModel {
+
+        @Override
+        public int getRowCount() {
+            return al.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 3;
+        }
+
+        @Override
+        public Object getValueAt(int i, int j) {
+            BeanCategories obj = al.get(i);
+            if (j == 0) {
+                return obj.name;
+            } else if (j == 1) {
+                return obj.description;
+            } else {
+                return obj.photo;
+            }
+        }
+
+        @Override
+        public String getColumnName(int j) {
+            String col[] = {"name", "description", "photo"};
+            return col[j];
+        }
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

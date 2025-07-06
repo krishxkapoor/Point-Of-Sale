@@ -139,4 +139,39 @@ public class myClient {
            }
            return ans;
        }   
+              public static String pay(String num , String type, int total)
+    {
+        String ans = "" ;
+        try
+        {
+            HttpResponse<String> res = Unirest.get("http://localhost:9000/pay") 
+                    .queryString("number", num)
+                    .queryString("type", type)
+                    .queryString("total",total)
+                    .asString();
+
+            ans = res.getBody();
+
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        return ans;
+    }
+              
+     public static String bookingdetail(String id)
+    {
+        String ans = "";
+        try{
+            HttpResponse<String> res = Unirest.get("http://localhost:9000/bookingdetail")
+                    .queryString("id",id)
+                    .asString();
+            ans = res.getBody();
+        }catch (Exception ex )
+        {
+            ex.printStackTrace();
+        }
+        return ans ;
+    }
 }

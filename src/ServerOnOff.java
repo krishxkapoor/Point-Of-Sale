@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 public class ServerOnOff extends javax.swing.JFrame {
 
-    myserver obj;
+    myServer obj;
     public ServerOnOff() {
         initComponents();
         setSize(488, 217);
@@ -49,7 +49,7 @@ public class ServerOnOff extends javax.swing.JFrame {
 
     private void jb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb1ActionPerformed
         try {
-            obj=new myserver(9000);
+            obj=new myServer(9000);
         } catch (IOException ex) {
             Logger.getLogger(ServerOnOff.class.getName()).log(Level.SEVERE, null, ex);
         }
