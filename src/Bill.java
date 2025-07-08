@@ -90,7 +90,8 @@ public class Bill extends javax.swing.JFrame {
         }    }//GEN-LAST:event_jtfKeyTyped
 
     private void jtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfActionPerformed
-        total+=Global.gtotal;
+        Global.gtotal = total;
+
     }//GEN-LAST:event_jtfActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
