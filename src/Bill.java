@@ -7,6 +7,7 @@ public class Bill extends javax.swing.JFrame {
         setSize(400, 300);
         total= Global.gtotal;
         setLocationRelativeTo(null);
+        int total=0;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -20,6 +21,11 @@ public class Bill extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
+        jtf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfActionPerformed(evt);
+            }
+        });
         jtf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jtfPropertyChange(evt);
@@ -82,6 +88,10 @@ public class Bill extends javax.swing.JFrame {
         if (!Character.isDigit(ch)) {
             evt.consume();
         }    }//GEN-LAST:event_jtfKeyTyped
+
+    private void jtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfActionPerformed
+        total+=Global.gtotal;
+    }//GEN-LAST:event_jtfActionPerformed
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

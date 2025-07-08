@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
@@ -28,6 +29,7 @@ public class GenrateBill extends javax.swing.JFrame {
 
     public void getcat() {
         int y = 10;
+        jp1.removeAll();
         String ans = myClient.getcategory();
         System.out.println(ans);
         StringTokenizer st = new StringTokenizer(ans, "$");
@@ -71,11 +73,12 @@ public class GenrateBill extends javax.swing.JFrame {
         while (st.hasMoreTokens()) {
             StringTokenizer st2 = new StringTokenizer(st.nextToken(), ";;");
             while (st2.hasMoreTokens()) {
+                int id=0;
                 String name2 = st2.nextToken();
                 String catname = st2.nextToken();
                 String description = st2.nextToken();
-                int price = Integer.parseInt(st2.nextToken());
-                int quantity = Integer.parseInt(st2.nextToken());
+                String price = st2.nextToken();
+                String quantity = st2.nextToken();
                 String photo = st2.nextToken();
                 JButton bt = new JButton();
                 bt.setBounds(5, y, 290, 100);
@@ -91,7 +94,7 @@ public class GenrateBill extends javax.swing.JFrame {
                 bt.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        getcart(id, name2, quantity,price);
                     }
                 });
 
@@ -114,6 +117,7 @@ public class GenrateBill extends javax.swing.JFrame {
         jb1 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         DELETE = new javax.swing.JButton();
+        jl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -166,7 +170,7 @@ public class GenrateBill extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jt);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(540, 50, 360, 406);
+        jScrollPane2.setBounds(540, 40, 360, 406);
 
         jb1.setText("Genrate Bill");
         jb1.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +179,7 @@ public class GenrateBill extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jb1);
-        jb1.setBounds(760, 500, 140, 60);
+        jb1.setBounds(760, 540, 140, 60);
 
         jButton1.setText("HOME");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +192,11 @@ public class GenrateBill extends javax.swing.JFrame {
 
         DELETE.setText("DELETE");
         getContentPane().add(DELETE);
-        DELETE.setBounds(580, 500, 140, 60);
+        DELETE.setBounds(580, 540, 140, 60);
+
+        jl.setForeground(new java.awt.Color(204, 0, 0));
+        getContentPane().add(jl);
+        jl.setBounds(640, 480, 170, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -203,6 +211,49 @@ public class GenrateBill extends javax.swing.JFrame {
         dispose();
         Bill obj = new Bill();
         obj.setVisible(true);    }//GEN-LAST:event_jb1ActionPerformed
+    public void getcart(int id, String qty, String price, String name) {
+        int price1 = Integer.parseInt(price);
+        String ans = JOptionPane.showInputDialog("Enter Quantity :");
+        int qty1 = Integer.parseInt(qty);
+        int qty2 = Integer.parseInt(ans);
+        int total = 0;
+
+        if (qty1 >= qty2) {
+            total += price1 * qty2;
+            jl.setText(total + "");
+            Global.gtotal = total;
+            JOptionPane.showMessageDialog(this, Global.gtotal);
+            String ans1 = myClient.addcart(id, name, qty2, price1);
+            if (ans1.equals("success")) {
+                al.clear();
+                String ans3 = myClient.getcart();
+                System.out.println(ans3);
+                StringTokenizer st3 = new StringTokenizer(ans3, "$");
+                while (st3.hasMoreTokens()) {
+                    StringTokenizer st4 = new StringTokenizer(st3.nextToken(), ";;");
+                    while (st4.hasMoreTokens()) {
+                        String name3 = st4.nextToken();
+                        String quantity = st4.nextToken();
+                        String price3 = st4.nextToken();
+
+//               String quantity = st4.nextToken();
+                        al.add(addcart(name3 , price3 , quantity));
+
+                    }
+
+                    tm.fireTableDataChanged();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, ans1);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Do not have enough stock");
+        }
+
+    }
+
     class mytablemodel extends AbstractTableModel {
 
         @Override
@@ -248,6 +299,7 @@ public class GenrateBill extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jb1;
+    private javax.swing.JLabel jl;
     private javax.swing.JPanel jp1;
     private javax.swing.JPanel jp2;
     private javax.swing.JTable jt;
